@@ -4,15 +4,15 @@ Lớp Giao diện người dùng (Presentation Layer): Chứa các thành phần
 Lớp Dịch vụ Nghiệp vụ (Business Logic Layer): Chứa logic xử lý nghiệp vụ như tính toán lương, quản lý bảng công, và xử lý đơn hàng.
 Lớp Truy cập dữ liệu (Data Access Layer): Chứa các thành phần để truy cập cơ sở dữ liệu và hệ thống bên ngoài (như ngân hàng).
 Lớp Cơ sở dữ liệu (Database Layer): Chứa cơ sở dữ liệu để lưu trữ thông tin nhân viên, bảng công, và các đơn hàng.
-  b. Kiến trúc hướng dịch vụ (SOA):
+   b. Kiến trúc hướng dịch vụ (SOA):
 Sử dụng các dịch vụ như EmployeeService, PayrollService, TimeCardService, BankService để tách biệt các chức năng nghiệp vụ thành các dịch vụ độc lập.
 Điều này giúp dễ dàng mở rộng, bảo trì và tích hợp với các hệ thống khác.
-  c. Cơ sở dữ liệu:
+   c. Cơ sở dữ liệu:
 Sử dụng OODBMS (ObjectStore) hoặc RDBMS (PostgreSQL, MySQL) để lưu trữ dữ liệu.
 Cấu trúc dữ liệu phải phù hợp với yêu cầu lưu trữ thông tin phức tạp của nhân viên, bảng lương, và đơn hàng.
-  d. Bảo mật:
+   d. Bảo mật:
 Thêm lớp bảo mật để kiểm soát quyền truy cập, đảm bảo rằng chỉ những người dùng hợp lệ mới có thể truy cập vào thông tin nhạy cảm.
-  e. Tích hợp hệ thống:
+   e. Tích hợp hệ thống:
 Sử dụng API hoặc giao thức như RESTful API để tích hợp với các hệ thống bên ngoài như ngân hàng và cơ sở dữ liệu quản lý dự án.
 
       -Giải thích kiến trúc
