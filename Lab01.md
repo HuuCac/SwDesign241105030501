@@ -1,17 +1,21 @@
 1. Phân tích kiến trúc:
    a. Kiến trúc phân lớp:
-Lớp Giao diện người dùng (Presentation Layer): Chứa các thành phần giao diện người dùng cho nhân viên và quản trị viên.
+   Lớp Giao diện người dùng (Presentation Layer): Chứa các thành phần giao diện người dùng cho nhân viên và quản trị viên.
 Lớp Dịch vụ Nghiệp vụ (Business Logic Layer): Chứa logic xử lý nghiệp vụ như tính toán lương, quản lý bảng công, và xử lý đơn hàng.
 Lớp Truy cập dữ liệu (Data Access Layer): Chứa các thành phần để truy cập cơ sở dữ liệu và hệ thống bên ngoài (như ngân hàng).
 Lớp Cơ sở dữ liệu (Database Layer): Chứa cơ sở dữ liệu để lưu trữ thông tin nhân viên, bảng công, và các đơn hàng.
+
    b. Kiến trúc hướng dịch vụ (SOA):
 Sử dụng các dịch vụ như EmployeeService, PayrollService, TimeCardService, BankService để tách biệt các chức năng nghiệp vụ thành các dịch vụ độc lập.
 Điều này giúp dễ dàng mở rộng, bảo trì và tích hợp với các hệ thống khác.
+
    c. Cơ sở dữ liệu:
 Sử dụng OODBMS (ObjectStore) hoặc RDBMS (PostgreSQL, MySQL) để lưu trữ dữ liệu.
 Cấu trúc dữ liệu phải phù hợp với yêu cầu lưu trữ thông tin phức tạp của nhân viên, bảng lương, và đơn hàng.
+
    d. Bảo mật:
 Thêm lớp bảo mật để kiểm soát quyền truy cập, đảm bảo rằng chỉ những người dùng hợp lệ mới có thể truy cập vào thông tin nhạy cảm.
+
    e. Tích hợp hệ thống:
 Sử dụng API hoặc giao thức như RESTful API để tích hợp với các hệ thống bên ngoài như ngân hàng và cơ sở dữ liệu quản lý dự án.
 
@@ -90,3 +94,84 @@ PayrollService và BankService: Lớp PayrollService gọi đến BankService đ
 BankService và Transaction: BankService tạo ra các đối tượng Transaction để xử lý các giao dịch thanh toán.
 
 4. Phân tích ca sử dụng Maintain Timecard
+   Mô tả:
+Ca sử dụng "Maintain Timecard" cho phép nhân viên cập nhật và nộp thông tin bảng công của họ. Nhân viên có thể nhập số giờ làm việc cho từng ngày và chỉ định các số dự án mà họ đã làm việc. Hệ thống sẽ lưu lại thông tin này và cho phép nhân viên nộp bảng công để xử lý thanh toán.
+   Dưới đây là các lớp phân tích liên quan đến ca sử dụng Maintain Timecard:
+
+Employee: Đại diện cho nhân viên trong hệ thống.
+   Thuộc tính:
+      employeeId: int
+      name: String
+      hourlyRate: double
+
+Timecard: Đại diện cho bảng công của nhân viên.
+   Thuộc tính:
+      startDate: Date
+      endDate: Date
+      hoursWorked: Map<Date, double> (lưu trữ số giờ làm việc cho từng ngày)
+      status: String (draft, submitted)
+
+TimecardService: Chứa logic xử lý cập nhật và nộp bảng công.
+   Thuộc tính:
+      currentDate: Date
+
+Project: Đại diện cho các dự án mà nhân viên có thể làm việc.
+   Thuộc tính:
+      projectId: int
+      projectName: String
+
+ValidationService: Cung cấp các phương thức để xác thực thông tin bảng công.
+   Thuộc tính:
+      maxHoursPerDay: double
+
+   Dưới đây là biểu đồ sequence mô tả hành vi của các lớp trong ca sử dụng Maintain Timecard:
+![Diagram](https://www.planttext.com/api/plantuml/png/Z9D1JiCm44NtEOMNhGGNo0AL1HBT8QMmT-qf379iunb7wjbOS2IkW6diqZR1i4hq_R_V-CVvVFzO4Sl0iJUDLEo2kEkzSNk0nYSP5NffMMom1oM3xY0CgERNpiI7u5v1yPds90rgoUXisQOfC75zSybeHO2t2CIFFeMWh2wMpONnDDiA5U3K3HcmrZ-vNs0SWnLSF1fOeg4vM3vRAvw1RuVaabi3MQGqNtwjONos62Ikbm2M8Tox66YHGsjz9Lw-XTac9YMtOXWb67V9qOclDkvmD2U5ek7wDuX-WgjshvpTOUXphju7nMsF_D_RGC0TIuwq67CCVzs3Cil1JvIEF4Se8xR2EiRTlZkw2-xmM3Ohi3hzMry0003__mC0)
+
+   Nhiệm vụ của từng lớp phân tích
+      - Employee: Đại diện cho nhân viên và giữ thông tin liên quan đến nhân viên.
+      - Timecard: Chứa thông tin bảng công của nhân viên, bao gồm số giờ làm việc và trạng thái của bảng công.
+      - TimecardService: Chịu trách nhiệm xử lý các yêu cầu cập nhật và nộp bảng công từ nhân viên. Lớp này sẽ gọi các lớp khác để thực hiện các hành động cần thiết.
+      - Project: Cung cấp thông tin về các dự án mà nhân viên có thể làm việc, cho phép nhân viên chỉ định số dự án cho giờ làm việc.
+      - ValidationService: Cung cấp các phương thức để xác thực thông tin bảng công, đảm bảo rằng số giờ làm việc hợp lệ.
+
+   Quan hệ giữa các lớp phân tích
+      - Employee và Timecard: Mối quan hệ giữa nhân viên và bảng công, mỗi nhân viên có một bảng công.
+      - TimecardService và Timecard: Lớp TimecardService tạo ra và cập nhật các đối tượng Timecard khi nhân viên yêu cầu.
+      - TimecardService và Project: Lớp TimecardService gọi lớp Project để lấy danh sách các dự án có sẵn cho nhân viên.
+      - TimecardService và ValidationService: TimecardService gọi ValidationService để xác thực số giờ làm việc trước khi cập nhật bảng công.
+
+   Biểu đồ lớp mô tả lớp phân tích
+![Diagram](https://www.planttext.com/api/plantuml/png/V5BBJiCm4BpdArOv5KGhk4Qewg58S01LbCTv4wzQWn_1ZuW8yMKS-2H-0ST9GvgYvk9uTcTdTzO_NzyBwz0uBqLI2BGMhcGfT4q47maq7rSEgCDkM8kjdU5g0mebjG3JFXS4M-sDgE_HKVAPTFKUkAG23TlLMuOeHCtcRu2HOd_8BPQNpUsiApsFjUspDg-qtqGevRmzr5kJgNX1UxA5DuRKGBZId86XDq_MFPOiu3lwv6IGONqkkHk4UhMLqIzKkA5PPGkDlEhGkyQodls4WWTHhjMesyvFYU_NpTWhCakisr2kjI1KKBLSYWcJmG9iRAzVOtgHmdGQZtuL6MpHmZmPU_L_haI56pgMVpwRdQQz5rbmD0nDrL5EE0x7py3Ro5g4rn3Uv2y0003__mC0)
+
+   Giải thích biểu đồ lớp
+      - Employee: Lớp này đại diện cho nhân viên trong hệ thống. Mỗi nhân viên có một ID, tên và mức lương theo giờ.
+      - Timecard: Lớp này chứa thông tin về bảng công của nhân viên, bao gồm ngày bắt đầu, ngày kết thúc, số giờ làm việc cho từng ngày và trạng thái của bảng công (chẳng hạn như nháp hoặc đã nộp).
+      - TimecardService: Lớp này quản lý các yêu cầu từ nhân viên liên quan đến việc cập nhật và nộp bảng công. Nó có các phương thức để yêu cầu cập nhật bảng công và nộp bảng công.
+      - Project: Lớp này đại diện cho các dự án mà nhân viên có thể làm việc. Mối quan hệ giữa TimecardService và Project cho thấy rằng TimecardService có thể lấy danh sách các dự án có sẵn cho nhân viên khi họ cập nhật bảng công.
+      - ValidationService: Lớp này cung cấp các phương thức để xác thực thông tin bảng công, đảm bảo rằng số giờ làm việc không vượt quá giới hạn cho phép. Mối quan hệ giữa TimecardService và ValidationService cho thấy rằng TimecardService sẽ sử dụng ValidationService để kiểm tra tính hợp lệ của số giờ làm việc trước khi cập nhật bảng công.
+
+5. Tài liệu mô tả:
+   Giới thiệu
+Hệ thống quản lý bảng công và thanh toán là một ứng dụng phần mềm được thiết kế để quản lý bảng công của nhân viên và thực hiện thanh toán cho các dịch vụ hoặc sản phẩm. Hệ thống này bao gồm hai ca sử dụng chính: Maintain Timecard và Payment.
+
+   Ca sử dụng Maintain Timecard
+Ca sử dụng Maintain Timecard cho phép nhân viên cập nhật bảng công của mình, bao gồm ngày bắt đầu, ngày kết thúc, số giờ làm việc và trạng thái của bảng công. Hệ thống sẽ kiểm tra tính hợp lệ của số giờ làm việc và cập nhật bảng công tương ứng.
+
+   Ca sử dụng Payment
+Ca sử dụng Payment cho phép người dùng thực hiện thanh toán cho các dịch vụ hoặc sản phẩm. Người dùng có thể chọn phương thức thanh toán, nhập thông tin thanh toán và xác nhận giao dịch. Hệ thống sẽ xử lý thanh toán và thông báo kết quả cho người dùng.
+
+   Lớp phân tích
+      - Employee: Đại diện cho nhân viên trong hệ thống.
+      - Timecard: Đại diện cho bảng công của nhân viên.
+      - TimecardService: Quản lý các yêu cầu cập nhật bảng công từ nhân viên.
+      - Project: Đại diện cho các dự án mà nhân viên có thể làm việc.
+      - ValidationService: Xác thực thông tin bảng công.
+      - **User **: Đại diện cho người dùng trong hệ thống.
+      - Payment: Đại diện cho thông tin thanh toán.
+      - PaymentService: Quản lý các yêu cầu thanh toán từ người dùng.
+      - PaymentGateway: Kết nối với các dịch vụ thanh toán bên ngoài.
+      - Transaction: Lưu trữ thông tin về giao dịch thanh toán.
+
+Dưới đây là biểu đồ lớp mô tả các lớp phân tích và quan hệ giữa chúng:
+![Diagram](https://www.planttext.com/api/plantuml/png/b5InJiCm4Dtp5LQd5j4ArWwe0mWOg2grXVcQd5hJs0ws4uWGNyR09_4Bs8cTE6af8akIbxjtxzwTy_tvDLCQfCvP6iKfA4LkM9QA4f6yHyHUb6k23hjFQcof9ULRme5X1q06D8q-8aUreWnZa4b8fHtcgQv18waasAS0GvwqI2BoJOfa9tAfdeJSOrU8oTUvEYoyH5dGk6cb43GX4bzoL7gT9ORT1mv7GOJADupgu5F3kv3Y6MCTzfFLKCyPXywjGKts8wJK5AM2ztIvxXYytTa65oYleQm_ROH84JWfwboi0eQX7O6yjK8PQilD-pz7je2I8UzsM4EUoDK69dAkkqtNWG-eT-BqV5oLdWtLsBK4hY2sBhNZhyP2ETNKG2vvs15oVbJ4wA3ahI5uXTANT4dR6fqtvdZRpHnZLCgNzEwu8W7zgfNTsVOMzluTiRHktEoRyObblpZNd4iok1oGyRYwDITiIdQWo5NKt_pZiGmuRF5K_CLaSZPezdrgJetHWyN977CxNF6ftKARLIrddz_vQHNjgwZUPWJKOQnN_sUq7tUZmhDqTOJJcv9OeacpqJFp4p9_nXy0003__mC0)
+
