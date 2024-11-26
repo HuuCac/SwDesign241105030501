@@ -61,14 +61,6 @@ Hệ thống Quản lý mở rộng và linh hoạt luôn sẵn sàng để hỗ
 
 
 
-
-
-
-
-
-
-
-
  -----------------------------------------------------------------------------------------------------------------------------------------------------------
  1. Use Case Diagram (Sơ đồ ca sử dụng)
     ![Diagram](https://www.planttext.com/api/plantuml/png/P9AnIWD148RxUOhX-XJ69AK4HKXZY44VOBqiTmUNkNYt9mIn40jRBIq4evqGY63ZBP9YGzvZdy1NSB9SpYGsm-p-t_mxC-oFdhSp9LAL3sC0uQiaHQyRcbV2gyYyauSYm-FXA4x6KgxrqzmMRuIn-NRoYI0Ho7Ij7bhzXAFG5bD2SawPrH-ExFG1KkahGK4iqUjOVOygjFgH0ko9SPh4iOVNW9XdqXSP8uk7nHsBjB8REO_pexrDeEiKTZ6VpAc8C8YiVkRcNeOy0h_WbsNrpR8pCwKGLM8cFCTojfnGK6BxMvWj9WaF4zbYdk-0ZV_WXU7Why8ssjn4Usudb_dOwblUKB2SSRyH3inNnRVW1c2zTQpL3jpKEnTrA1TV0TldVUZqAwbA6tzf4rWfynP0Mz9WzGj-0G00__y30000)
