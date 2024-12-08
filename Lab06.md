@@ -1,91 +1,76 @@
-# Payroll System Operations
+# 1. **BankSystem:deposit**
+**Xác định lớp và thuộc tính**:
+   - `BankSystem`: Đại diện hệ thống ngân hàng.
+   - `BankTransaction`: Quản lý giao dịch.
+   - `Paycheck`: Đại diện bảng lương, chứa số tiền và thông tin nhân viên.
+   - `BankInformation`: Thông tin ngân hàng (tên, số định tuyến).
 
-## Subsystem: BankSystem
-### Lớp: BankTransaction
-- **`create(op: BankOperation, amount: float, routingNum: String)`**
-  - **Mô tả**: Tạo một giao dịch ngân hàng mới với thông tin cụ thể.
-  - **Tham số**:
-    - `op`: Loại giao dịch ngân hàng (như nạp tiền, rút tiền).
-    - `amount`: Số tiền giao dịch.
-    - `routingNum`: Số định tuyến ngân hàng.
+**Xác định phương thức (operations)**:
+   - `BankSystem.deposit(Paycheck, BankInformation)`
+   - `BankTransaction.create(op, amount, routingNum)`
+   - `BankTransaction.submit()`
+  
+## Class diagram:
+![Diagram](https://www.planttext.com/api/plantuml/png/T95DJiCm48NtFiKiMocvW1UeOe7KJOLKBZ1n1eWQ_yWpNaI8atNH8t45uk84jmYlhEStdz-plywN7Gj6INPKPaHcU4HtEauiPE53mNNr53mFiWaucNSo9mtFPTT0DzltxjNhws3UHOioUBTLdwf2laHqZ2QVh5mJ2OKsFcWuIXpSMmDeVNAYuMdqA0r4dsJM3yakbcsPvTJPEL9rovAfuDjRLj78Xj5FHFj-0Tx6h0gid5pnW9RMYH_vDrj7iQPLBzYs3t_QQqXChExbR5qhQ0ZH6-B_ZFTH2tD7hiy_-Gq00F__0m00).
 
-### Lớp: Paycheck
-- **`getAmount(): float`**
-  - **Mô tả**: Truy xuất số tiền từ paycheck.
-- **`getEmployee(): Employee`**
-  - **Mô tả**: Lấy thông tin nhân viên gắn với paycheck.
-
-### Lớp: BankSystemInterface
-- **`submit(theTransaction: BankTransaction)`**
-  - **Mô tả**: Gửi một giao dịch ngân hàng để xử lý.
-  - **Tham số**:
-    - `theTransaction`: Đối tượng giao dịch cần gửi đi.
+**Biểu đồ trạng thái**:
+Trạng thái của giao dịch từ *Khởi tạo* → *Đang xử lý* → *Hoàn tất*. <br>
+![Diagram](https://www.planttext.com/api/plantuml/png/UhzxlqDnIM9HIMbk3bUqLgo2hgwTWcTUPabcOavcLM99PduU5nSg7wmae2W_ERMuE3ClNS5A8HXa098G5v8iIB5pVcv1Jcf9QWfGRKXHObvnOZBOeE3IP92ojD8ST1reDg9gSqlCp4bDuU9260lI0dGybqDgNWh88m00003__mC0)
 
 ---
 
-## Subsystem: PrintService
-### Lớp: PrintService
-- **`print(aPaycheck: Paycheck, onPrinter: String)`**
-  - **Mô tả**: In thông tin paycheck lên một máy in được chỉ định.
-  - **Tham số**:
-    - `aPaycheck`: Paycheck cần in.
-    - `onPrinter`: Tên hoặc địa chỉ máy in.
+# 2. **PrintService:print**
+**Xác định lớp và thuộc tính**:
+   - `PrintService`: Quản lý việc in.
+   - `PaycheckPrinterImage`: Tạo hình ảnh in từ bảng lương.
+   - `PrinterInterface`: Kết nối với máy in.
+   - `Employee`: Thông tin nhân viên.
 
-### Lớp: PaycheckPrinterImage
-- **`buildPrintImage()`**
-  - **Mô tả**: Tạo một hình ảnh để in từ paycheck.
-- **`create(fromPaycheck: Paycheck)`**
-  - **Mô tả**: Tạo một đối tượng ảnh máy in từ thông tin paycheck.
+**Xác định phương thức (operations)**:
+   - `PrintService.print(Paycheck, String)`
+   - `PaycheckPrinterImage.buildPrintImage(fromPaycheck)`
+## Class diagram:
+![Diagram](https://www.planttext.com/api/plantuml/png/R98zRiCm38LtdOB8P0Frq5L3aI4TkXb9By38Z2jKFuOa5p2Adgn3ZzGhL7PanOsjGH383-yzaFhz_jdxW2xqMZ6Xq7kedJJXHEv32e9F1jFfncBHuI3UIBnpgDFhuTeXzz9mE8NuRalsnMQfHDM9qTZU9C-zLCtKcUh5nLbThmnA3bDx8Ph4nkk2Yup26aCYlDf451lHhgGdqzmmEUedcqNuPzqfEz2iNu7CEgbWKDDToQD2Dt1eR7zMbEnQ2WSAA9KloiolXfHzA1dp724rEdBInX0737H4qyvrrBOtOMqQbJTz_ssugfwszyIXz-GtuFlvp-2Mo58zWWrrSVGUhCduXEHPSzWzxiPDnjZ6CxQF-FWr_m000F__0m00)
 
-### Lớp: Employee
-- **`getEmployeeID(): int`**
-  - **Mô tả**: Truy xuất mã nhân viên.
-- **`getEmployeeName(): String`**
-  - **Mô tả**: Lấy tên của nhân viên.
-- **`getAddress(): String`**
-  - **Mô tả**: Lấy địa chỉ của nhân viên.
+**Biểu đồ trạng thái**:
+Trạng thái in: *Chuẩn bị in* → *Đang in* → *Hoàn thành*. <br>
+![Diagram](https://www.planttext.com/api/plantuml/png/UhzxlqDnIM9HIMbk3bUqLgo2hgwTGa1HQa5YKMPUEXSNKAua5I6WKCsb00G8XPbv9I1rjLnSC3POmZa_jo0djIGrHS5AmIqpBxCuGw40fXPX6B8HG8N1gNaf2YNv49MfHLnS25D0Ae6MSZa0bO1S2W000F__0m00)
 
 ---
 
-## Subsystem: ProjectManagementDatabase
-### Lớp: ProjectManagementDatabase
-- **`initialize()`**
-  - **Mô tả**: Khởi tạo kết nối đến cơ sở dữ liệu quản lý dự án.
-- **`getChargeNumbers(criteria: String): ChargeNumList`**
-  - **Mô tả**: Truy xuất danh sách các charge numbers phù hợp với tiêu chí.
-  - **Tham số**:
-    - `criteria`: Điều kiện tìm kiếm charge numbers.
+# 3. **ProjectManagementDatabase:getChargeNumbers**
+**Xác định lớp và thuộc tính**:
+   - `ProjectManagementDatabase`: Đại diện hệ thống cơ sở dữ liệu.
+   - `ChargeNumList`: Danh sách số tính phí.
+   - `ChargeNum`: Đối tượng số tính phí, chứa tên dự án và giá trị.
 
-### Lớp: ChargeNumList
-- **`add(theChargeNum: ChargeNum)`**
-  - **Mô tả**: Thêm một charge number vào danh sách.
-  - **Tham số**:
-    - `theChargeNum`: Đối tượng charge number cần thêm.
+**Xác định phương thức (operations)**:
+   - `getChargeNumbers(String)`: Truy vấn danh sách số tính phí.
+   - `ChargeNumList.add(theChargeNum)`.
+  
+## Class diagram:
+![Diagram](https://www.planttext.com/api/plantuml/png/T55B3e8m4Dtt55t2WWiGOqnqgOJ4nFr09r03nNIcRemdS-6Hl885aO-VBj-ytqmVj_kA62oxkX9v1KGojSqHSzw1WG9hDBm1XWm8vKN8xXN8wn9iWOchCxGKd5wI16gCvPwjDaKOou6prSJYAdh_6TnxHZ9_enJBTh0OQCi-5PGAkCG1dmJui7EZrOzw58JVVjzLXXe_DfaLF43b_4GrBgjmp4j7MHiu4KxgTDfstAjzZV-tZgBbnwLYQP6TDIJc-8pfMNbZ6BIdhT2ezbkV0000__y30000)
 
-### Lớp: ChargeNum
-- **`getProjectName(): String`**
-  - **Mô tả**: Lấy tên dự án liên quan đến charge number.
-- **`getValue(): float`**
-  - **Mô tả**: Lấy giá trị của charge number.
+**Biểu đồ trạng thái**:
+Trạng thái danh sách số: *Rỗng* → *Đang cập nhật* → *Hoàn tất*. <br>
+![Diagram](https://www.planttext.com/api/plantuml/png/UhzxlqDnIM9HIMbk3bUqLgo2hgwTWcjkGKab5nUO0Wk45gGabcJcfIjOAGI35CC5kE0o86NE-Ra5EQabgIb0TM29L8NWqkJarEBYjD8SLAKGi-7At18pSr9JkBWG9e0K0Tt3vP2Qbm9o6m000F__0m00)
 
-### Lớp: DBChargeNumbers
-- **`getChargeNums(criteria: String): ChargeNumList`**
-  - **Mô tả**: Thực hiện truy vấn để lấy danh sách charge numbers dựa trên tiêu chí.
-  - **Tham số**:
-    - `criteria`: Tiêu chí tìm kiếm charge numbers.
+---
 
-### Lớp: Connection
-- **`createStatement(): Statement`**
-  - **Mô tả**: Tạo một đối tượng Statement để thực hiện truy vấn SQL.
+# 4. **ProjectManagementDatabase::initialize**
+**Xác định lớp và thuộc tính**:
+   - `DBChargeNumbers`: Kết nối cơ sở dữ liệu.
+   - `DriverManager`: Quản lý kết nối.
 
-### Lớp: Statement
-- **`executeQuery(query: String): ResultSet`**
-  - **Mô tả**: Thực thi truy vấn SQL để trả về một kết quả ResultSet.
-  - **Tham số**:
-    - `query`: Câu truy vấn SQL.
+**Xác định phương thức (operations)**:
+   - `initialize()`: Thiết lập kết nối.
+   - `getConnection(url, user, pass)`: Lấy kết nối đến cơ sở dữ liệu.
 
-### Lớp: ResultSet
-- **`getString(columnLabel: String): String`**
-  - **Mô tả**: Lấy dữ liệu dạng chuỗi từ một cột của kết quả truy vấn.
-  - **Tham số**:
-    - `columnLabel`: Nhãn cột trong kết quả truy vấn.
+## Class diagram:
+![Diagram](https://www.planttext.com/api/plantuml/png/N8yn3i8m34NtdC9ZaUW5Cg2AiiB22Knh1KkfWvoa0uYJCN0aha23L2hLsn_U-z-Vrxk92JNbmPlEOunmsBTNL4UdF5n88pmC_8w54wFdErKR2sFWtZpDp2YFf4SKTAH_mb5gWmXrYODKMRs5Sr8MjuKSIPTqcnnpcjmBL1hMU-fwj-gpHHTDGzANDxu0003__mC0)
+
+**Biểu đồ trạng thái**:
+Trạng thái kết nối: *Chưa kết nối* → *Đang kết nối* → *Kết nối thành công*. <br>
+![Diagram](https://www.planttext.com/api/plantuml/png/UhzxlqDnIM9HIMbk3bUqLgo2hgwTWbz-YND-NbvgSabg2XSNCWyi3ULbvgKhM2a4WpGZ2N4XoI8f1cgrWglAprC8BarEJYqkJYlDGTU0OXsA7hV4p1oGWr1T0tGqbqDgNWh80m00003__mC0)
+
+---
